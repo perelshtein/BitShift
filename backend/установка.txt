@@ -1,0 +1,106 @@
+Установка на боевой сервер (можно запустить на локальном комп):
+Нужен vps-сервер. Хватит самой простой конфигурации.
+У меня было 2гб оперативной памяти и 30гб ssd-диск.
+
+настроить вход по ключу через ssh, отключить вход по паролю;
+
+настроить ufw - закрыть все входящие и оставить доступными порты 443 и 22;
+
+прописать dns cloudflare;
+
+apt install mysql-server
+
+apt install openjdk-21-jre-headless
+
+useradd -m -r -s /sbin/nologin obmen
+
+==========================================================
+
+Настраиваем MySQL:
+mysql -u root -p
+
+CREATE USER 'obmen'@'localhost' IDENTIFIED BY 'password';
+
+CREATE DATABASE obmen;
+
+GRANT ALL PRIVILEGES ON obmen.* TO 'obmen'@'localhost';
+
+FLUSH PRIVILEGES;
+
+Проверка:
+SHOW GRANTS FOR 'obmen'@'localhost';
+
+Должны получить:
++----------------------------------------------------------+
+| Grants for obmen@localhost                               |
++----------------------------------------------------------+
+| GRANT USAGE ON *.* TO `obmen`@`localhost`                |
+| GRANT ALL PRIVILEGES ON `obmen`.* TO `obmen`@`localhost` |
++----------------------------------------------------------+
+
+grant usage - разрешает подкл к mysql серверу. это безопасно.
+
+==========================================================
+
+Настраиваем CloudFlare:
+
+- установим сервера DNS CF для домена;
+
+- сгенерируем origin-сертификат для подкл сервера к CF, чтобы не возиться с certbot каждые 3 месяца. Этот сертификат будет работать
+только с CF и выдается на 15 лет:
+
+SSL -> Origin Server -> Create cert, скопируем данные и сохраним как fullchain.pem и privatekey.pem;
+
+- перекодируем сертификат для Java:
+openssl pkcs12 -export -name bitshift.su -in fullchain.pem -inkey privkey.pem -out keystore.p12
+задать пароль, он будет запрашиваться на след шаге.
+
+keytool -importkeystore -srckeystore keystore.p12 -srcstoretype pkcs12 -alias bitshift.su -destkeystore keystore.jks -deststoretype jks
+пароль нужно задать. если файл будет украден, его не смогут использовать сразу.
+
+если все сделано правильно, мы получим файл keystore.jks
+
+==========================================================
+
+Настраиваем application.conf
+
+заходим на сервер в папку /home/obmen, закачиваем файлы keystore.jks и config.properties
+в файле config.properties задаем:
+
+dbPass=пароль к базе MySQL
+host=домен
+port=443
+secureKey - мастер-пароль для шифрования других паролей в базе
+keyStorePassword - пароль к keystore.jks
+
+==========================================================
+
+Добавляем системный unit
+
+Копируем obmen.service в /etc/systemd/system/
+chmod 644 obmen.service
+
+==========================================================
+
+Разрешаем для Java доступ к портам ниже 1000
+
+Посмотреть, где лежит сам файл:
+ls -la /usr/bin/java
+ls -la /etc/alternatives/java
+
+setcap 'cap_net_bind_service=+ep' /usr/lib/jvm/java-21-openjdk-amd64/bin/java
+
+==========================================================
+
+Обновим конфигурацию:
+systemctl daemon reload
+
+Запускаем сервис:
+systemctl start obmen
+
+Проверим:
+systemctl status obmen
+
+journalctl -u obmen --since "5min ago"
+
+

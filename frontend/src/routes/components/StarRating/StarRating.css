@@ -1,0 +1,40 @@
+.star-rating {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .star {
+    box-shadow: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .star:hover {
+    box-shadow: none;
+  }
+  
+  .star:hover:not(:disabled),
+  .star:focus:not(:disabled) {
+    transform: scale(1.1);
+  }
+  
+  .star:disabled {
+    cursor: not-allowed;
+  }
+  
+  .star-image {
+    display: block;
+  }
+  
+  .filled .star-image {
+    filter: brightness(0) saturate(100%) invert(67%) sepia(98%) saturate(748%)
+      hue-rotate(359deg) brightness(102%) contrast(101%); /* Yellow */
+  }
+  
+  .empty .star-image {
+    filter: brightness(0) saturate(100%) invert(83%) sepia(0%) saturate(0%)
+      hue-rotate(0deg) brightness(92%) contrast(87%); /* Gray */
+  }

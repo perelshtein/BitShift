@@ -1,0 +1,14 @@
+[Unit]
+Description=BitShift obmen server
+After=network.target
+
+[Service]
+User=obmen
+Group=obmen
+WorkingDirectory=/home/obmen/www
+ExecStart=/usr/bin/java -jar /home/obmen/obmen.jar
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

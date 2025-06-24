@@ -1,0 +1,12 @@
+[
+    {
+        "from": "USDT",
+        "to": "RUB",
+        "price": 100.0
+    },
+    {
+        "from": "RUB",
+        "to": "BTC",
+        "price": 0.05
+    }
+]

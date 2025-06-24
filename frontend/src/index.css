@@ -1,0 +1,142 @@
+/* Глобальные стили для всех элементов */
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  line-height: 1.5;
+  color: #121212;
+}
+
+textarea,
+input,
+button {
+  font-size: 1rem;
+  font-family: inherit;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.2), 0 1px 2px hsla(0, 0%, 0%, 0.2);
+  background-color: white;
+  line-height: 1.5;
+}
+
+button {
+  background-color: #fed97e;
+  border: 1px solid #4d4d4d;
+  font-weight: 500;
+  transition: background-color 0.6s ease;
+}
+
+button:disabled {
+  color: gray;
+}
+
+button:hover {
+  background-color: #fefa8cff;
+}
+
+button:not(:disabled):active {
+  box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.4);
+  transform: translateY(1px);
+}
+
+textarea:hover,
+input:hover,
+button:hover {
+  box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.6), 0 1px 2px hsla(0, 0%, 0%, 0.2);
+}
+
+select {
+  font-size: 1rem;
+  font-family: inherit;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  background-color: white;
+  line-height: 1.5;
+  box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.2), 0 1px 2px hsla(0, 0%, 0%, 0.2);
+}
+
+input[type="number"] {
+  width: 8em;
+}
+
+input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+#root {
+  display: flex;
+  min-height: 100%;
+}
+
+:root {
+  --bid-border: 1px solid gray;
+}
+
+/* Форма входа */
+
+.formLogin {
+  text-align: center;
+  margin: 2em auto 0;
+  max-width: 15em;
+}
+
+.formLogin > * {
+  margin: 1em 0;
+  display: block;
+}
+
+.formLogin > button {
+  width: 100%;
+}
+
+/* Fix for Chrome */
+.formLogin input,
+.formLogin button {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.errorPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.warning {
+  color: red;
+  padding-top: 0.5em;
+}

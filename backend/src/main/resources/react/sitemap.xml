@@ -1,0 +1,14 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://e.bitshift.su/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://e.bitshift.su/rules</loc>
+    <priority>0.7</priority>
+  </url>
+    <url>
+    <loc>https://e.bitshift.su/contacts</loc>
+    <priority>0.7</priority>
+  </url>
+</urlset>

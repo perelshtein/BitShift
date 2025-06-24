@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+Disallow: /course.xml
+Sitemap: https://e.bitshift.su/sitemap.xml
